@@ -1,22 +1,15 @@
 /**********************************************************************
-*   Program:                  Mortgage Payment Calculator (SR-MF-003)
+*   Program:                  Mortgage Payment & Amortization Calculator 
 *   Purpose:                  Week 3 Individual Assignment
-*   Programmer:           	  Charlie Pittman
-*   Class:                    PRG/421
-*   Instructor:               Vince Anderson
 *   Creation Date:            March 2, 2012
 *********************************************************************
-*   Programmer         Modification Date    Modification Purpose
-*   -----------------  ------------------   --------------------------
-*  Charlie Pittman	   2/26/12              Week 2 Assignment (Change4)
-*  Charlie Pittman	   3/2/12			    Week 3 Assignment (Change5)
-* 											- APR and Years from menu
-* 											- Values in an array
+
 **********************************************************************
 *  Program Summary:
-*  Program calculates and displays what the monthly payment
+*  Calculates and displays what the monthly payment
 *  is for a mortgage based on the amount, APR, and 
-*  term of the mortgage, as entered/selected by the user.
+*  term of the mortgage, as entered/selected by the user.  
+*  also prints out the amortization scheudle
 **********************************************************************/
 
 import java.text.DecimalFormat;
@@ -75,7 +68,7 @@ public class CalculatorWindow extends javax.swing.JFrame {
             }
         });
 
-		//A button group
+	//A button group
         buttonGroup1.add(jRadioButton1);
         //Create tRadio Buttons & TXT, add to Button Group
         jRadioButton1.setText("7 Years at at 5.35%");
@@ -86,7 +79,7 @@ public class CalculatorWindow extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setText("Custom terms:");
                    
-		jScrollPane1.setBackground(new java.awt.Color(254, 254, 254));
+	jScrollPane1.setBackground(new java.awt.Color(254, 254, 254));
         
         jScrollPane1.setViewportView(jTable1);
         
@@ -94,8 +87,8 @@ public class CalculatorWindow extends javax.swing.JFrame {
 
         jLabel3.setText("%");
 
-   //Laying out everything in the window.  Productivity hint 18.1 "Use a GUI builder."    
-                javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+   //Laying out everything in the window. 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,17 +188,18 @@ public class CalculatorWindow extends javax.swing.JFrame {
         // Element 3 will be used for "custom terms"
 		
         double apr [] = new double[4];
-		int years [] = new int[4];
-		apr[0] = .0535;  
-		apr[1] = .055;   
-		apr[2] = .0575;
-		apr[3] = 0  ;
-		years[0] = 7;	
-		years[1] = 15;	
-		years[2] = 30;	
-		years[3] = 0;
-        int loan = 0;
-		//Get string from the field, convert to double and store
+	int years [] = new int[4];
+	apr[0] = .0535;  
+	apr[1] = .055;   
+	apr[2] = .0575;
+	apr[3] = 0  ;
+	years[0] = 7;	
+	years[1] = 15;	
+	years[2] = 30;	
+	years[3] = 0;
+       	int loan = 0;
+	
+	//Get string from the field, convert to double and store
         Double mortgageAmt = Double.parseDouble(jTextField1.getText());
               
         //Set variables based on the radio button selected      
@@ -232,13 +226,13 @@ public class CalculatorWindow extends javax.swing.JFrame {
         //Calculate payment
         pmt = mortgageAmt * ((apr[loan] / 12) / (1 - Math.pow(1 + (apr[loan] / 12), -(months))));
 
-		//convert the answer to a string, and put it in field 4 in
+	//convert the answer to a string, and put it in field 4 in
         //decimal format dollars and cents
         DecimalFormat money = new DecimalFormat("$0.00");
-         String strpmt = Double.toString(pmt);
+        String strpmt = Double.toString(pmt);
         jFormattedTextField4.setText(money.format(pmt));
 		
-		//Create a table with just the headers
+	//Create a table with just the headers
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
@@ -249,15 +243,15 @@ public class CalculatorWindow extends javax.swing.JFrame {
         
         int currentmonth=1;  				  //used as counter and for first record in each row
 		double currentprincipal = 0; 		  //the amount of the payment that goes towards the balance
-		double currentintrest=0;  			  //the amount of the payment that is interest
+		double currentintrest=0;  		  //the amount of the payment that is interest
 			 
 		// for loop that runs once for each month of the loan using 
 		// current month as the counter and incrementing at the end of each loop
 		for(currentmonth = 1 ; currentmonth <= months; currentmonth++)
 			{ 
 			currentintrest = mortgageAmt * monthlyinterest ;   //determine how much of the payment is interest
-			currentprincipal = pmt - currentintrest;        //determine how much of the payment is principal
-			mortgageAmt = mortgageAmt - currentprincipal;       //determine what the new loan balance is.
+			currentprincipal = pmt - currentintrest;           //determine how much of the payment is principal
+			mortgageAmt = mortgageAmt - currentprincipal;      //determine what the new loan balance is.
 
 			DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 			//add rows to the table
